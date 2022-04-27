@@ -7,11 +7,17 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'language' => 'ru-RU',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
+        '@my_alias' => 'http://google.com',
+        '@page' => '@my_alias/myPage'
     ],
     'components' => [
+        'activity'=> ['class' => \app\components\ActivityComponent::class,
+        'model_class' => \app\models\Activity::class
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '-OwQE6BFzI1XkI7z_s4-8vM9Xj2j89ZY',
@@ -43,7 +49,6 @@ $config = [
             ],
         ],
         'db' => $db,
-
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
