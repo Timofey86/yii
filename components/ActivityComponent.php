@@ -24,14 +24,18 @@ class ActivityComponent extends Component
     {
         return new $this->model_class;
     }
-
-    public function createActivity(&$model):bool
+/* @var Activity $model */
+    public function createActivity(&$model, $post):bool
     {
-        $model->load(\Yii::$app->request->post());
-        if (!$model->validate()){
-            print_r($model->getErrors());
-            return false;
+        if ($model->load($post)) {
+
+          if ($model->validate()){
+            return true;
         }
-        return true;
+
+
     }
+    return false;
+}
+
 }
