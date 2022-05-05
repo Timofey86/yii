@@ -27,7 +27,7 @@ class ActivityCreateAction extends Action
 
             }
             if ($comp->createActivity($model,\Yii::$app->request->post())){
-
+                return $this->controller->render('view',['model'=>$model]);
             }
 
         }

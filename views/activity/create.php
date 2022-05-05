@@ -29,7 +29,7 @@
         <div class="form-group">
             <button type="submit">Отправить</button>
         </div>
-
+        <?= $form->field($model,'images[]')->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
         <?php \yii\bootstrap4\ActiveForm::end(); ?>
     </div>
 </div>

@@ -12,7 +12,7 @@ class BaseController extends Controller
 
         $url = \Yii::$app->request->url;
        // \Yii::$app->session->set('last_page_url',$url);
-        \Yii::$app->session->setFlash('last_page_url',$url); // success
+        \Yii::$app->session->setFlash('success',$url); // success
         return $result;
     }
 

@@ -16,7 +16,7 @@ class Activity extends BaseModel
     public $email;
     public $repeat_email;
     public $use_notification;
-    public $file;
+    public $images;
 
 
     protected static $repeat_types = [
@@ -46,22 +46,24 @@ class Activity extends BaseModel
             ['description', 'string', 'min' => 10, 'max' => 150],
             ['date_start', 'date', 'format' => 'php:Y-m-d'],
             ['email', 'email'],
-            ['title','match','pattern'=>'/w+{10,}/'],
+//            ['title', 'match', 'pattern' => '/w+{10,}/'],
             ['repeat_email', 'compare', 'compareAttribute' => 'email',
                 'message' => 'Значения email должны быть равны'],
             ['email', 'required', 'when' => function ($model) {
                 return $model->use_notification == 1 ? true : false;
             }],
+            ['images', 'file', 'extensions' => ['jpg', 'png'],'maxFiles' => 4],
 //          ['title','notAdmin'],
-            [['title','description'],NotAdminRule::class,],
+            [['title', 'description'], NotAdminRule::class,],
             [['is_blocked', 'use_notification'], 'boolean'],
             ['repeat_type', 'in', 'range' => array_keys(self::$repeat_types)]
         ];
     }
 
-    public function notAdmin($attr){
-        if ($this->title == 'admin'){
-            $this->addError('title','Загаловок не должен быть admin');
+    public function notAdmin($attr)
+    {
+        if ($this->title == 'admin') {
+            $this->addError('title', 'Загаловок не должен быть admin');
         }
     }
 
@@ -73,7 +75,9 @@ class Activity extends BaseModel
             'description' => 'Описание',
             'date_start' => 'Дата начала',
             'is_blocked' => 'Блокирующее событие',
-            'repeat_type' => 'Повтор'
+            'repeat_type' => 'Повтор',
+            'repeat_email' => 'Повтор Email',
+            'images' => 'Картинки'
         ];
     }
 
