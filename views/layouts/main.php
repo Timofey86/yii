@@ -70,7 +70,7 @@ AppAsset::register($this);
 
 <footer class="footer mt-auto py-3 text-muted">
     <div class="container">
-        <p>Назад: <?=Yii::$app->session->getFlash('success') ?></p>
+        <!--<p>Назад: <?/*=Yii::$app->session->getFlash('success') */?></p>-->
         <p class="float-left">&copy; My Company <?= date('Y') ?></p>
         <p class="float-right"><?= Yii::powered() ?></p>
     </div>
