@@ -47,7 +47,7 @@ class ActivityComponent extends Component
     public function loadImages($model)
     {
         $component = \Yii::createObject(['class' => FileServiseComponent::class]);
-        foreach ($model->images as $image) {
+        foreach ($model->images as &$image) {
             if ($file = $component->saveUploadedFile($image)) {
                 $image = basename($file);
             }

@@ -17,8 +17,10 @@ $config = [
         '@page' => '@my_alias/myPage'
     ],
     'components' => [
-        'activity'=> ['class' => \app\components\ActivityComponent::class,
-        'model_class' => \app\models\Activity::class
+        'auth' => ['class' => \app\components\AuthComponent::class],
+        'activity'=> [
+            'class' => \app\components\ActivityComponent::class,
+            'model_class' => \app\models\Activity::class
         ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
