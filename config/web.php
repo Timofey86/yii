@@ -12,13 +12,17 @@ $config = [
     'language' => 'ru-RU',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
         '@my_alias' => 'http://google.com',
         '@page' => '@my_alias/myPage'
     ],
     'components' => [
+        'authManager' => [
+            'class' => \yii\rbac\DbManager::class
+        ],
+        'rbac' => ['class' =>\app\components\RbacComponent::class],
         'auth' => ['class' => \app\components\AuthComponent::class],
-        'activity'=> [
+        'activity' => [
             'class' => \app\components\ActivityComponent::class,
             'model_class' => \app\models\Activity::class
         ],

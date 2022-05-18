@@ -4,20 +4,14 @@ namespace app\models;
 
 use app\base\BaseModel;
 use app\models\rules\NotAdminRule;
+use yii\helpers\ArrayHelper;
 
 
-class Activity extends BaseModel
+class Activity extends ActivityBase
 {
-    public $title;
-    public $description;
-    public $date_start;
-    public $repeat_type;
-    public $is_blocked;
-    public $email;
-    public $repeat_email;
-    public $use_notification;
+
     public $images;
-    public $date_end;
+
 
 
     protected static $repeat_types = [
@@ -41,7 +35,7 @@ class Activity extends BaseModel
 
     public function rules()
     {
-        return [
+        return array_merge([
             [['title', 'date_start',], 'required'],
             [['title', 'description','email'], 'trim'],
             ['description', 'string', 'max' => 250],
@@ -57,8 +51,10 @@ class Activity extends BaseModel
 //          ['title','notAdmin'],
             /*[['title', 'description'], NotAdminRule::class,],*/
             [['is_blocked', 'use_notification'], 'boolean'],
-            ['repeat_type', 'in', 'range' => array_keys(self::$repeat_types)]
-        ];
+            ['repeat_type_id', 'in', 'range' => array_keys(
+                ArrayHelper::map($this->getRepeatTypes()->asArray()->all()
+                    ,'id','name'))]
+        ],parent::rules());
     }
 
 /*    public function notAdmin($attr)
@@ -68,7 +64,7 @@ class Activity extends BaseModel
         }
     }*/
 
-    public function attributeLabels()
+/*    public function attributeLabels()
     {
         return [
             'title' => 'Название активности',
@@ -81,16 +77,16 @@ class Activity extends BaseModel
             'repeat_email' => 'Повтор Email',
             'images' => 'Картинки'
         ];
-    }
+    }*/
 
-    public function getRepeatTypes()
+/*    public function getRepeatTypes()
     {
         return array_merge(static::$repeat_types,);
     }
 
-    public function getRepeatType($id){
+    public function getRepeatTypeName($id){
         $data = $this->getRepeatTypes();
         return array_key_exists($id,$data) ? $data[$id] : false;
-    }
+    }*/
 
 }

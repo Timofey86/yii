@@ -1,0 +1,90 @@
+<?php
+
+namespace app\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "activity".
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string $title
+ * @property string|null $description
+ * @property string $date_start
+ * @property string|null $date-end
+ * @property int $repeat_type_id
+ * @property int $is_blocked
+ * @property int $use_notification
+ * @property string|null $email
+ * @property string $date_add
+ *
+ * @property ActivityRepeatType $repeatType
+ * @property Users $user
+ */
+class ActivityBase extends \yii\db\ActiveRecord
+{
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return 'activity';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['user_id', 'title', 'date_start', 'repeat_type_id'], 'required'],
+            [['user_id', 'repeat_type_id', 'is_blocked', 'use_notification'], 'integer'],
+            [['description'], 'string'],
+            [['date_start', 'date-end', 'date_add'], 'safe'],
+            [['title', 'email'], 'string', 'max' => 255],
+            [['repeat_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => ActivityRepeatType::className(), 'targetAttribute' => ['repeat_type_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'title' => Yii::t('app', 'Title'),
+            'description' => Yii::t('app', 'Description'),
+            'date_start' => Yii::t('app', 'Date Start'),
+            'date-end' => Yii::t('app', 'Date End'),
+            'repeat_type_id' => Yii::t('app', 'Repeat Type ID'),
+            'is_blocked' => Yii::t('app', 'Is Blocked'),
+            'use_notification' => Yii::t('app', 'Use Notification'),
+            'email' => Yii::t('app', 'Email'),
+            'date_add' => Yii::t('app', 'Date Add'),
+        ];
+    }
+
+    /**
+     * Gets query for [[RepeatType]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRepeatType()
+    {
+        return $this->hasOne(ActivityRepeatType::className(), ['id' => 'repeat_type_id']);
+    }
+
+    /**
+     * Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(Users::className(), ['id' => 'user_id']);
+    }
+}
