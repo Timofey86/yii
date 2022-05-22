@@ -12,16 +12,6 @@ class Activity extends ActivityBase
 
     public $images;
 
-
-
-    protected static $repeat_types = [
-        0 => 'Без повтора',
-        1 => 'Ежедневно',
-        2 => 'Еженедельно',
-        3 => 'Ежемесячно',
-        4 => 'Ежегодно',
-    ];
-
   /*  public function beforeValidate()
     {
         if ($this->date_start) {
@@ -51,9 +41,7 @@ class Activity extends ActivityBase
 //          ['title','notAdmin'],
             /*[['title', 'description'], NotAdminRule::class,],*/
             [['is_blocked', 'use_notification'], 'boolean'],
-            ['repeat_type_id', 'in', 'range' => array_keys(
-                ArrayHelper::map($this->getRepeatTypes()->asArray()->all()
-                    ,'id','name'))]
+            ['repeat_type_id', 'in', 'range' => array_keys(static::getRepeatTypes())]
         ],parent::rules());
     }
 
@@ -64,27 +52,31 @@ class Activity extends ActivityBase
         }
     }*/
 
-/*    public function attributeLabels()
+    public function attributeLabels()
     {
         return [
-            'title' => 'Название активности',
+            'title' => 'Название',
             'use_notification' => 'Уведомление о событие',
             'description' => 'Описание',
             'date_start' => 'Дата начала',
             'date_end' => 'Дата окончания',
             'is_blocked' => 'Блокирующее событие',
-            'repeat_type' => 'Повтор',
-            'repeat_email' => 'Повтор Email',
+            'repeat_type_id' => 'Повтор',
             'images' => 'Картинки'
         ];
-    }*/
-
-/*    public function getRepeatTypes()
-    {
-        return array_merge(static::$repeat_types,);
     }
 
-    public function getRepeatTypeName($id){
+    public function getRepeatTypes()
+    {
+        static $repeat_types;
+        if (!isset($repeat_types)) {
+            $repeat_types = ActivityRepeatType::find()->asArray()->all();
+            $repeat_types = ArrayHelper::map($repeat_types, 'id', 'name');
+        }
+        return $repeat_types;
+    }
+
+  /*  public function getRepeatTypeName($id){
         $data = $this->getRepeatTypes();
         return array_key_exists($id,$data) ? $data[$id] : false;
     }*/

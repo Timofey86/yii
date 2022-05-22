@@ -10,6 +10,9 @@ class RbacController extends BaseController
     {
         \Yii::$app->rbac->generateRbac();
 
+        $data = \Yii::$app->rbac->getDbData();
+
+        return $this->render('init',['data' => $data]);
     }
 
 }

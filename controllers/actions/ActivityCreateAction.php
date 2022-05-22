@@ -16,7 +16,7 @@ class ActivityCreateAction extends Action
     public function run()
     {
         if(!\Yii::$app->rbac->canCreateActivity()){
-            throw new HttpException(403,'not access create activity');
+            throw new HttpException(403,'У вас нет прав создавать события');
         }
         /** @var ActivityComponent $comp */
         $comp=\Yii::$app->activity;

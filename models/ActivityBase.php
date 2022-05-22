@@ -12,7 +12,7 @@ use Yii;
  * @property string $title
  * @property string|null $description
  * @property string $date_start
- * @property string|null $date-end
+ * @property string|null $date_end
  * @property int $repeat_type_id
  * @property int $is_blocked
  * @property int $use_notification
@@ -41,7 +41,7 @@ class ActivityBase extends \yii\db\ActiveRecord
             [['user_id', 'title', 'date_start', 'repeat_type_id'], 'required'],
             [['user_id', 'repeat_type_id', 'is_blocked', 'use_notification'], 'integer'],
             [['description'], 'string'],
-            [['date_start', 'date-end', 'date_add'], 'safe'],
+            [['date_start', 'date_end', 'date_add'], 'safe'],
             [['title', 'email'], 'string', 'max' => 255],
             [['repeat_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => ActivityRepeatType::className(), 'targetAttribute' => ['repeat_type_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
@@ -59,7 +59,7 @@ class ActivityBase extends \yii\db\ActiveRecord
             'title' => Yii::t('app', 'Title'),
             'description' => Yii::t('app', 'Description'),
             'date_start' => Yii::t('app', 'Date Start'),
-            'date-end' => Yii::t('app', 'Date End'),
+            'date_end' => Yii::t('app', 'Date End'),
             'repeat_type_id' => Yii::t('app', 'Repeat Type ID'),
             'is_blocked' => Yii::t('app', 'Is Blocked'),
             'use_notification' => Yii::t('app', 'Use Notification'),

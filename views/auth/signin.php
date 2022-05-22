@@ -17,6 +17,8 @@
         <div class="form-group">
             <?= \yii\helpers\Html::submitButton('Авторизоваться') ?>
         </div>
+        <p><b>admin@mail.ru / 123456</b></p>
+        <p><b>user@mail.ru / 123456</b></p>
 
         <?php \yii\bootstrap4\ActiveForm::end(); ?>
     </div>

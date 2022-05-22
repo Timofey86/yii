@@ -20,13 +20,14 @@
         <?= $form->field($model, 'description')->textarea(); ?>
         <?= $form->field($model, 'date_start')->input('date'); ?>
         <?= $form->field($model, 'date_end')->input('date') ?>
-        <?= $form->field($model, 'repeat_type')->dropdownList($model->getRepeatTypes()) ?>
+        <?= $form->field($model,'images[]')->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
+        <?= $form->field($model, 'repeat_type_id')->dropdownList($model->getRepeatTypes()) ?>
         <?= $form->field($model, 'is_blocked')->checkbox(); ?>
         <?= $form->field($model, 'use_notification')->checkbox(); ?>
         <?= $form->field($model, 'email', [
             'enableAjaxValidation' => true,
             'enableClientValidation' => false]); ?>
-        <?= $form->field($model,'images[]')->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
+
 
         <?/*= $form->field($model, 'repeat_email'); */?>
         <div class="form-group">

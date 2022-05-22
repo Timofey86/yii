@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\base\BaseController;
 use app\controllers\actions\ActivityCreateAction;
 use app\models\Activity;
+use app\models\ActivitySearch;
 use yii\web\HttpException;
 
 
@@ -21,7 +22,10 @@ class ActivityController extends BaseController
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $model = new ActivitySearch();
+        $provider = $model->getDataProvider(\Yii::$app->request->queryParams);
+
+        return $this->render('index',['model' => $model, 'provider' => $provider]);
     }
 
     public function actionView($id)
@@ -29,11 +33,11 @@ class ActivityController extends BaseController
         $model = Activity::find()->andWhere(['id' => $id])->one();
 
         if(!$model){
-            throw new HttpException(401,'activity not found');
+            throw new HttpException(401,'Событие не найдено');
         }
 
         if (!\Yii::$app->rbac->canViewActivity($model)){
-            throw new HttpException(403,'not access show activity');
+            throw new HttpException(403,'У вас нет прав просмотра данного события');
         }
 
         return $this->render('view',['model'=> $model]);

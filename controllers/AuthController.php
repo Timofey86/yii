@@ -16,7 +16,7 @@ class AuthController extends Controller
             $model=\Yii::$app->auth->getModel(\Yii::$app->request->post());
 
             if (\Yii::$app->auth->createUser($model)){
-                return $this->redirect('/');
+                return $this->redirect(Url::to(['auth/sign-in']));
             }
 
         }

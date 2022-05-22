@@ -17,6 +17,9 @@ $config = [
         '@page' => '@my_alias/myPage'
     ],
     'components' => [
+        'formatter' => [
+            'dateFormat' => 'dd.MM.yyyy'
+        ],
         'authManager' => [
             'class' => \yii\rbac\DbManager::class
         ],

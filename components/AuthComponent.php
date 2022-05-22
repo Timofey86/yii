@@ -4,18 +4,30 @@ namespace app\components;
 
 use app\models\Users;
 use yii\base\Component;
+use yii\base\Exception;
 
 class AuthComponent extends Component
 {
+    public $model_class;
+
+    public function init()
+    {
+        parent::init();
+
+        if (empty($this->model_class)){
+            throw new Exception('Need model_class param');
+        }
+    }
+
     /**
      * @param null $params
      * @return Users
      * */
-    public function getModel($params=null)
+    public function getModel($data = [])
     {
-        $model = new Users();
-        if ($params) {
-            $model->load($params);
+        $model = new $this->model_class;
+        if ($data) {
+            $model->load($data);
         }
         return $model;
     }
@@ -27,6 +39,7 @@ class AuthComponent extends Component
     public function authUser(&$model):bool
     {
         $model->setAuthScenario();
+
         if (!$model->validate(['email','password'])){
             return false;
         }
@@ -37,7 +50,7 @@ class AuthComponent extends Component
         $model->save();
 
         if(!$this->checkPassword($password, $model->password_hash)){
-            $model->addError('password','Пароль не прошел проверку');
+            $model->addError('password','Неправильный пароль');
             return false;
         }
 
@@ -83,4 +96,21 @@ class AuthComponent extends Component
     {
         return \Yii::$app->security->generatePasswordHash($password);
     }
+
+    public function createDemoUser($email, $password) {
+        $model = $this->getModel()::findOne(['email' => $email]);
+        if ($model) {
+            if (!$this->checkPassword($password, $model->password_hash)) {
+                $model->password = $password;
+                $model->password_hash = $this->generatePasswordHash($password);
+            }
+        } else {
+            $model = $this->getModel();
+            $model->email = $email;
+            $model->password = $password;
+            $this->createUser($model);
+        }
+        return $model->id;
+    }
+
 }

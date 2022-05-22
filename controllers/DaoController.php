@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\DaoComponent;
+use yii\helpers\Url;
 use yii\web\Controller;
 
 class DaoController extends Controller
@@ -11,7 +12,7 @@ class DaoController extends Controller
     {
         /** @var DaoComponent
          */
-        $comp=\Yii::createObject(['class' => DaoComponent::class]);
+     /*   $comp=\Yii::createObject(['class' => DaoComponent::class]);
 
         $comp->insertsAndUpdates();
 
@@ -27,8 +28,50 @@ class DaoController extends Controller
             'activityUser' => $activityUser,
             'user' => $user,
             'cnt' => $cnt,
-            'reader' => $reader]);
+            'reader' => $reader]);*/
 
+        $component = $this->daoComponent();
+
+        $options = [];
+        if ($user_id = \Yii::$app->request->get('user_id')) {
+            $options['user_id'] = $user_id;
+        }
+        if ($user_email = \Yii::$app->request->get('user_email')) {
+            $options['user_email'] = $user_email;
+        }
+
+
+        $data = $component->getActivities($options);
+        $rand_user_id = $component->getRandActivityUserId();
+        $rand_user_email = $component->getRandActivityUserEmail();
+
+        return $this->render('index', [
+            'data' => $data,
+            'rand_user_id' => $rand_user_id,
+            'rand_user_email' => $rand_user_email
+        ]);
+    }
+
+    public function actionClear()
+    {
+        $this->daoComponent()->clear();
+        \Yii::$app->session->setFlash('success', 'Данные очищены');
+        return $this->redirect(Url::to(['dao/index']));
+    }
+
+    public function actionAdd()
+    {
+        $this->daoComponent()->addRandomData();
+        \Yii::$app->session->setFlash('success', 'Данные созданы');
+
+        return $this->redirect(Url::to(['dao/index']));
+    }
+
+    private function daoComponent()
+    {
+        return \Yii::createObject([
+            'class' => DaoComponent::class
+        ]);
     }
 
 }
