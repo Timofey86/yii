@@ -25,13 +25,14 @@ class ActivityCreateAction extends Action
 
         if(\Yii::$app->request->isPost) {
             if (\Yii::$app->request->isAjax){
-                \Yii::$app->response->format=Response::FORMAT_JSON;
+                \Yii::$app->response->format = Response::FORMAT_JSON;
                 $model->load(\Yii::$app->request->post());
                 return ActiveForm::validate($model);
 
             }
-            if ($comp->createActivity($model,\Yii::$app->request->post())){
-                return $this->controller->render('view',['model'=>$model]);
+            if ($id = $comp->createActivity($model,\Yii::$app->request->post())){
+                \Yii::$app->session->setFlash('success','success');
+                return $this->controller->redirect(\yii\helpers\Url::to(['activity/view','id' => $model->id]));
             }
 
         }

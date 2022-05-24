@@ -21,6 +21,7 @@ use Yii;
  *
  * @property ActivityRepeatType $repeatType
  * @property Users $user
+ * @property int $date_created [timestamp]
  */
 class ActivityBase extends \yii\db\ActiveRecord
 {

@@ -16,6 +16,7 @@ $config = [
         '@my_alias' => 'http://google.com',
         '@page' => '@my_alias/myPage'
     ],
+    'as datecreated' => ['class' => \app\behaviors\LogMeBehavior::class],
     'components' => [
         'formatter' => [
             'dateFormat' => 'dd.MM.yyyy'

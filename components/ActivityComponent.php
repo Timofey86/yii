@@ -2,15 +2,24 @@
 
 namespace app\components;
 
+use app\behaviors\LogMeBehavior;
 use app\models\Activity;
 use yii\base\Component;
-use yii\db\Exception;
 use yii\web\UploadedFile;
-use function Composer\Autoload\includeFile;
+
 
 class ActivityComponent extends Component
 {
     public $model_class;
+
+    const EVENT_LOAD_IMAGES= 'load_images';
+
+    public function behaviors()
+    {
+        return [
+            LogMeBehavior::class
+        ];
+    }
 
     public function init()
     {
@@ -21,27 +30,46 @@ class ActivityComponent extends Component
         }
     }
 
-
     public function getModel()
     {
         return new $this->model_class;
     }
 
+    /**
+     * @throws \yii\base\InvalidConfigException
+     */
+    protected function insert($model)
+    {
+        $record = $this->getModel();
+        $record->setAttributes($model->attributes);
+        if ($record->save()) {
+            return $record->id;
+        }
+        return false;
+    }
+
     /* @var Activity $model */
     public function createActivity(&$model, $post): bool
     {
-        if ($model->load($post) && $model->validate()) {
+        if ($model->load($post)) {
             $model->images = UploadedFile::getInstances($model, 'images');
-            if ($this->loadImages($model)) {
-                return true;
+            $model->user_id = \Yii::$app->user->identity->getId();
+            if ($model->validate()) {
+                if ($this->loadImages($model)) {
+                    if ($id = $model->save($model)) {
+                        return $id;
+                    }
+                }
             }
         }
-        /*            if(!empty($file = $comp->saveUploadedFile($model->file))) {
-                        $model->file=basename($file);
 
-                    }*/
         return false;
     }
+
+    /*            if(!empty($file = $comp->saveUploadedFile($model->file))) {
+                    $model->file=basename($file);
+
+                }*/
 
 
     public function loadImages($model)
@@ -49,10 +77,22 @@ class ActivityComponent extends Component
         $component = \Yii::createObject(['class' => FileServiseComponent::class]);
         foreach ($model->images as &$image) {
             if ($file = $component->saveUploadedFile($image)) {
+                //$this->on(self::EVENT_LOAD_IMAGES,func);
+                $this->trigger(self::EVENT_LOAD_IMAGES);
                 $image = basename($file);
             }
 
         }
         return true;
     }
+
+    public function getActivity($id)
+    {
+        $model = $this->getModel();
+        $model = $model::findOne(['id' => $id]);
+        return $model;
+
+    }
+
+
 }

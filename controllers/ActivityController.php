@@ -3,9 +3,11 @@
 namespace app\controllers;
 
 use app\base\BaseController;
+use app\behaviors\DateCreatedBehavior;
 use app\controllers\actions\ActivityCreateAction;
 use app\models\Activity;
 use app\models\ActivitySearch;
+use yii\db\ActiveRecord;
 use yii\web\HttpException;
 
 
@@ -27,10 +29,10 @@ class ActivityController extends BaseController
 
         return $this->render('index',['model' => $model, 'provider' => $provider]);
     }
-
+    /** @var ActiveRecord $model */
     public function actionView($id)
     {
-        $model = Activity::find()->andWhere(['id' => $id])->one();
+        $model = \Yii::$app->activity->getActivity($id);
 
         if(!$model){
             throw new HttpException(401,'Событие не найдено');
@@ -39,6 +41,12 @@ class ActivityController extends BaseController
         if (!\Yii::$app->rbac->canViewActivity($model)){
             throw new HttpException(403,'У вас нет прав просмотра данного события');
         }
+        $model->attachBehavior('datecreated',[
+            'class' => DateCreatedBehavior::class,
+            'attribute_name' => 'date_add'
+        ]);
+        //\Yii::$app->log();
+        //$model->detachBehavior('datecreated');
 
         return $this->render('view',['model'=> $model]);
     }

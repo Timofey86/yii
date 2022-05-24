@@ -10,14 +10,14 @@ class AuthComponent extends Component
 {
     public $model_class;
 
-    public function init()
+    /*public function init()
     {
         parent::init();
 
         if (empty($this->model_class)){
             throw new Exception('Need model_class param');
         }
-    }
+    }*/
 
     /**
      * @param null $params
@@ -25,7 +25,7 @@ class AuthComponent extends Component
      * */
     public function getModel($data = [])
     {
-        $model = new $this->model_class;
+        $model = new Users();
         if ($data) {
             $model->load($data);
         }

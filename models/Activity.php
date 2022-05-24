@@ -3,6 +3,8 @@
 namespace app\models;
 
 use app\base\BaseModel;
+use app\behaviors\DateCreatedBehavior;
+use app\behaviors\LogMeBehavior;
 use app\models\rules\NotAdminRule;
 use yii\helpers\ArrayHelper;
 
@@ -12,24 +14,33 @@ class Activity extends ActivityBase
 
     public $images;
 
-  /*  public function beforeValidate()
+    public function behaviors()
     {
-        if ($this->date_start) {
-            $date = \DateTime::createFromFormat('d.m.Y', $this->date_start);
-            if ($date) {
-                $this->date_start = $date->format('Y-m-d');
-            }
-        }
-        return parent::beforeValidate();
-    }*/
+        return [
+            ['class' => DateCreatedBehavior::class,
+            'attribute_name' => 'date_add'],
+            LogMeBehavior::class
+        ];
+    }
+
+    /*  public function beforeValidate()
+      {
+          if ($this->date_start) {
+              $date = \DateTime::createFromFormat('d.m.Y', $this->date_start);
+              if ($date) {
+                  $this->date_start = $date->format('Y-m-d');
+              }
+          }
+          return parent::beforeValidate();
+      }*/
 
     public function rules()
     {
         return array_merge([
             [['title', 'date_start',], 'required'],
-            [['title', 'description','email'], 'trim'],
+            [['title', 'description', 'email'], 'trim'],
             ['description', 'string', 'max' => 250],
-            [['date_start','date_end'], 'date', 'format' => 'php:Y-m-d'],
+            [['date_start', 'date_end'], 'date', 'format' => 'php:Y-m-d'],
             ['email', 'email'],
 //            ['title', 'match', 'pattern' => '/w+{10,}/'],
             /*['repeat_email', 'compare', 'compareAttribute' => 'email',
@@ -37,20 +48,20 @@ class Activity extends ActivityBase
             ['email', 'required', 'when' => function ($model) {
                 return $model->use_notification == 1 ? true : false;
             }],
-            ['images', 'file', 'extensions' => ['jpg', 'png'],'maxFiles' => 4],
+            ['images', 'file', 'extensions' => ['jpg', 'png'], 'maxFiles' => 4],
 //          ['title','notAdmin'],
             /*[['title', 'description'], NotAdminRule::class,],*/
             [['is_blocked', 'use_notification'], 'boolean'],
             ['repeat_type_id', 'in', 'range' => array_keys(static::getRepeatTypes())]
-        ],parent::rules());
+        ], parent::rules());
     }
 
-/*    public function notAdmin($attr)
-    {
-        if ($this->title == 'admin') {
-            $this->addError('title', 'Загаловок не должен быть admin');
-        }
-    }*/
+    /*    public function notAdmin($attr)
+        {
+            if ($this->title == 'admin') {
+                $this->addError('title', 'Загаловок не должен быть admin');
+            }
+        }*/
 
     public function attributeLabels()
     {
@@ -76,9 +87,9 @@ class Activity extends ActivityBase
         return $repeat_types;
     }
 
-  /*  public function getRepeatTypeName($id){
-        $data = $this->getRepeatTypes();
-        return array_key_exists($id,$data) ? $data[$id] : false;
-    }*/
+    /*  public function getRepeatTypeName($id){
+          $data = $this->getRepeatTypes();
+          return array_key_exists($id,$data) ? $data[$id] : false;
+      }*/
 
 }
