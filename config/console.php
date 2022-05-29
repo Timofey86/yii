@@ -39,7 +39,7 @@ $config = [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.yandex.ru',
                 'username' => 'timofeymuhin19@yandex.ru',
-                'password' => '123Paravoz',
+                'password' => 'password',
                 'port' => '465',
                 'encryption' => 'SSL'
             ]
