@@ -30,6 +30,18 @@ class DaoController extends Controller
             'cnt' => $cnt,
             'reader' => $reader]);*/
 
+        //\Yii::$app->cache->set('key1','value1');
+
+//        $val = \Yii::$app->cache->get('key1');
+        /*$val = \Yii::$app->cache->getOrSet('key2',function (){
+        //    return 'val2';
+        });*/
+
+        // \Yii::$app->cache->flush();
+
+//        echo $val;
+
+        //exit;
         $component = $this->daoComponent();
 
         $options = [];

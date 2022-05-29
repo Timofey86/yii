@@ -5,6 +5,7 @@ namespace app\components;
 use app\behaviors\LogMeBehavior;
 use app\models\Activity;
 use yii\base\Component;
+use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
 
 
@@ -91,6 +92,20 @@ class ActivityComponent extends Component
         $model = $this->getModel();
         $model = $model::findOne(['id' => $id]);
         return $model;
+
+    }
+
+    /**
+     * @param $from
+     * @return mixed
+     */
+    public function getActivityFroNotification($from)
+    {
+        $record =  $this->getModel();
+        return $record::find()->andWhere('date_start>=:from',[':from'=>$from])
+            ->andWhere(['use_notification' => 1])->andWhere('date_start<=:to',[':to' => date('Y-m-d').'24:00:00'])
+            //->createCommand()->rawSql;
+            ->asArray()->all();
 
     }
 

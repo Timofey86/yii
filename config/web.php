@@ -24,7 +24,7 @@ $config = [
         'authManager' => [
             'class' => \yii\rbac\DbManager::class
         ],
-        'rbac' => ['class' =>\app\components\RbacComponent::class],
+        'rbac' => ['class' => \app\components\RbacComponent::class],
         'auth' => ['class' => \app\components\AuthComponent::class],
         'activity' => [
             'class' => \app\components\ActivityComponent::class,
@@ -46,10 +46,15 @@ $config = [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure transport
-            // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'enableSwiftMailerLogging' => true,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.yandex.ru',
+                'username' => 'timofeymuhin19@yandex.ru',
+                'password' => '123Paravoz',
+                'port' => '465',
+                'encryption' => 'SSL'
+            ]
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
