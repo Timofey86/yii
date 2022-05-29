@@ -3,11 +3,19 @@
 namespace app\controllers;
 
 use app\components\DaoComponent;
+use yii\filters\PageCache;
 use yii\helpers\Url;
 use yii\web\Controller;
 
 class DaoController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            ['class' => PageCache::class, 'only' => ['index'],'duration' => 30]
+        ];
+    }
+
     public function actionIndex()
     {
         /** @var DaoComponent
