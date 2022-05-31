@@ -63,7 +63,7 @@ class Activity extends ActivityBase
             }
         }*/
 
-    public function attributeLabels()
+    /*public function attributeLabels()
     {
         return [
             'title' => 'Название',
@@ -75,7 +75,7 @@ class Activity extends ActivityBase
             'repeat_type_id' => 'Повтор',
             'images' => 'Картинки'
         ];
-    }
+    }*/
 
     public function getRepeatTypes()
     {

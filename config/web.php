@@ -48,6 +48,17 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/event' => 'event.php'
+                    ],
+                ],
+            ],
+        ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'enableSwiftMailerLogging' => true,
