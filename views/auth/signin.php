@@ -4,6 +4,8 @@
 
 /* @var $this \yii\web\View */
 /* @var $model \app\models\Users */
+\app\views\auth\assets\AuthAsset::register($this)
+//$this->registerCssFile(''); пример подключения на одной странице
 ?>
 
 <div class="row">
