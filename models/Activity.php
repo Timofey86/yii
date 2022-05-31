@@ -18,7 +18,7 @@ class Activity extends ActivityBase
     {
         return [
             ['class' => DateCreatedBehavior::class,
-            'attribute_name' => 'date_add'],
+                'attribute_name' => 'date_add'],
             LogMeBehavior::class
         ];
     }
@@ -91,5 +91,22 @@ class Activity extends ActivityBase
           $data = $this->getRepeatTypes();
           return array_key_exists($id,$data) ? $data[$id] : false;
       }*/
+
+    public function fields()
+    {
+        return [
+            'id', 'title', 'user_id', 'date_start',
+            'user_email' => function ($model) {
+                return $model->user->email;
+            }
+        ];
+    }
+
+    public function extraFields()
+    {
+        return [
+            'email', 'date_add'
+        ];
+    }
 
 }
