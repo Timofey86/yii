@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Users;
+use yii\helpers\Url;
 use yii\web\Controller;
 
 class AuthController extends Controller

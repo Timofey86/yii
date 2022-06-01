@@ -4,7 +4,7 @@
  * @var $model \app\models\Activity
  *
  */
-echo $model->getDateCreated();
+echo Yii::t('app','Date created',['date' => $model->getDateCreated()]);
 echo yii\helpers\Html::tag('pre', print_r($model->attributes, true));
 ?>
 

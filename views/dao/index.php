@@ -55,7 +55,6 @@
     </p>
     <p><a href="<?= \yii\helpers\Url::to(['dao/clear']) ?>">Очистить данные</a></p>
     <p>Всего событий: <?= count($data) ?></p>
-
     <?php if ($this->beginCache('key22',['duration' => 100])):?>
     <?=\app\widgets\daotable\DaoTableWidget::widget(['activities' => $data]);?>
     <?php $this->endCache();?>

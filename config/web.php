@@ -31,6 +31,9 @@ $config = [
             'model_class' => \app\models\Activity::class
         ],
         'request' => [
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '-OwQE6BFzI1XkI7z_s4-8vM9Xj2j89ZY',
         ],
@@ -40,9 +43,21 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\Users',
             'enableAutoLogin' => true,
+//            'enableSession' => false
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
+        ],
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/event' => 'event.php'
+                    ],
+                ],
+            ],
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
@@ -70,6 +85,15 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'rest',
+                    'pluralize' => false,
+                ],
+                'add' => 'activity/create',
+                'new' => 'activity/create',
+                'events/view/<id:\w+>' => 'activity/view',
+                'events/<action>' => 'activity/<action>'
+
             ],
         ],
 
