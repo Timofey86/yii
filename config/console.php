@@ -8,12 +8,20 @@ $db = file_exists(__DIR__ . '/db_local.php')
 $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', \app\config\PreConf::class],
     'controllerNamespace' => 'app\commands',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
         '@tests' => '@app/tests',
+    ],
+    'container' => [
+        'singletons' => [
+            '\app\base\INotification' => ['class' => '\app\components\Notification'],
+            'notification' => ['class' => '\app\base\INotification'],
+            '\app\base\ILogger' => ['class' => \app\components\ConsoleLogger::class]
+        ],
+        'definitions' => []
     ],
     'components' => [
         'authManager' => [
@@ -35,14 +43,7 @@ $config = [
             'class' => 'yii\swiftmailer\Mailer',
             'enableSwiftMailerLogging' => true,
             'useFileTransport' => true,
-            'transport' => [
-                'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.yandex.ru',
-                'username' => 'timofeymuhin19@yandex.ru',
-                'password' => 'password',
-                'port' => '465',
-                'encryption' => 'SSL'
-            ]
+//
         ],
     ],
     'params' => $params,

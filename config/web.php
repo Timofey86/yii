@@ -16,7 +16,16 @@ $config = [
         '@my_alias' => 'http://google.com',
         '@page' => '@my_alias/myPage'
     ],
-    'as datecreated' => ['class' => \app\behaviors\LogMeBehavior::class],
+    'as datecreated' => [
+        'class' => \app\behaviors\LogMeBehavior::class
+    ],
+    'container' => [
+        'singletons' => [
+            '\app\base\INotification' => ['class' => '\app\components\Notification'],
+            '\app\base\ILogger' => ['class' => \app\components\WebLogger::class]
+        ],
+        'definitions' => []
+    ],
     'components' => [
         'formatter' => [
             'dateFormat' => 'dd.MM.yyyy'
@@ -62,14 +71,15 @@ $config = [
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'enableSwiftMailerLogging' => true,
-            'transport' => [
-                'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.yandex.ru',
-                'username' => 'timofeymuhin19@yandex.ru',
-                'password' => 'password',
-                'port' => '465',
-                'encryption' => 'SSL'
-            ]
+            'useFileTransport' => true
+//            'transport' => [
+//                'class' => 'Swift_SmtpTransport',
+//                'host' => 'smtp.yandex.ru',
+//                'username' => 'timofeymuhin19@yandex.ru',
+//                'password' => 'password',
+//                'port' => '465',
+//                'encryption' => 'SSL'
+//            ]
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

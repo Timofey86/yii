@@ -2,8 +2,8 @@
 
 namespace app\commands;
 
+use app\base\INotification;
 use app\components\ActivityComponent;
-use app\components\NotificationComponent;
 use app\models\Activity;
 use yii\console\Controller;
 use yii\db\ActiveRecord;
@@ -41,15 +41,17 @@ class NotificationController extends Controller
     /** @var ActiveRecord $repository  */
     public function actionSendNotifications()
     {
+        /** @var Activity $repository */
         $repository = \Yii::createObject(['class' => ActivityComponent::class, 'model_class' => Activity::class]);
         $activities = $repository->getActivityFroNotification($this->from);
 
-        /**
-         * @var NotificationComponent $notification
-         */
-        $notification = \Yii::createObject(['class' => NotificationComponent::class,
-            'mailer' => \Yii::$app->mailer]);
-
+//        /**
+//         * @var NotificationComponent $notification
+//         */
+//        $notification = \Yii::createObject(['class' => NotificationComponent::class,
+//            'mailer' => \Yii::$app->mailer]);
+        print_r($activities);
+        $notification = \Yii::$container->get(INotification::class);
         $notification->sendNotifications($activities);
 
     }

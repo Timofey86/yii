@@ -6,7 +6,7 @@ use yii\base\Component;
 use yii\console\Application;
 use yii\helpers\Console;
 use yii\mail\MailerInterface;
-use yii\swiftmailer\Mailer;
+
 
 class NotificationComponent extends Component
 {
