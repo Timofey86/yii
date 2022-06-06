@@ -95,7 +95,7 @@ class Activity extends ActivityBase
     public function fields()
     {
         return [
-            'id', 'title', 'user_id', 'date_start',
+            'id', 'title', 'user_id', 'date_start','description',
             'user_email' => function ($model) {
                 return $model->user->email;
             }

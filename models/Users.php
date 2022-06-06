@@ -32,11 +32,11 @@ class Users extends UsersBase implements IdentityInterface
     public function rules()
     {
         return array_merge([
-            ['password','string', 'min' => 6],
-            ['email','email'],
-            ['email','exist','on' => self::SCENARIO_AUTH],
-            [['email'], 'unique','on' => self::SCENARIO_REGISTER],
-            ],parent::rules());
+            ['password', 'string', 'min' => 6],
+            ['email', 'email'],
+            ['email', 'exist', 'on' => self::SCENARIO_AUTH],
+            [['email'], 'unique', 'on' => self::SCENARIO_REGISTER],
+        ], parent::rules());
     }
 
     public function setAuthScenario()
@@ -44,13 +44,14 @@ class Users extends UsersBase implements IdentityInterface
         $this->setScenario(self::SCENARIO_AUTH);
     }
 
-    public function getUsername(){
+    public function getUsername()
+    {
         return $this->email;
     }
 
     public function setRegisterScenario()
     {
-        $this->setScenario(self::SCENARIO_REGISTER );
+        $this->setScenario(self::SCENARIO_REGISTER);
     }
 
     public static function findIdentity($id)

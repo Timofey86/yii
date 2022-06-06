@@ -17,9 +17,12 @@ $config = [
     ],
     'container' => [
         'singletons' => [
-            '\app\base\INotification' => ['class' => '\app\components\Notification'],
+            'app\base\INotification' => ['class' => '\app\components\Notification'],
             'notification' => ['class' => '\app\base\INotification'],
-            '\app\base\ILogger' => ['class' => \app\components\ConsoleLogger::class]
+            'app\base\ILogger' => ['class' => \app\components\ConsoleLogger::class],
+//            'app\base\INotification'=>['class'=>'\app\components\Notification'],
+//            'app\base\ILogger'=>['class'=>\app\components\ConsoleLogger::class],
+//            'notification'=>['class'=>'app\base\INotification']
         ],
         'definitions' => []
     ],

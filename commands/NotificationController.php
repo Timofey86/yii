@@ -9,6 +9,7 @@ use yii\console\Controller;
 use yii\db\ActiveRecord;
 use yii\helpers\Console;
 
+
 class NotificationController extends Controller
 {
     public $name;
@@ -52,6 +53,7 @@ class NotificationController extends Controller
 //            'mailer' => \Yii::$app->mailer]);
         print_r($activities);
         $notification = \Yii::$container->get(INotification::class);
+
         $notification->sendNotifications($activities);
 
     }

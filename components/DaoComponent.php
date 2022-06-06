@@ -28,7 +28,7 @@ class DaoComponent extends Component
     {
         $sql = 'select * from users;';
 
-        return $this->getDb()->createCommand($sql)->queryAll();
+        return \Yii::$app->db->createCommand($sql)->queryAll();
     }
 
     public function getActivityUsers($user_id)
